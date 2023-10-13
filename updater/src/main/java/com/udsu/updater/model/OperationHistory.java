@@ -1,6 +1,5 @@
-package com.udsu.trader.model.entity;
+package com.udsu.updater.model;
 
-import com.udsu.trader.model.OperationStatus;
 import lombok.Builder;
 import lombok.Data;
 

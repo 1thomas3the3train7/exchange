@@ -1,6 +1,8 @@
 DROP FUNCTION IF EXISTS sell_operation(function_currency_to_buy varchar, function_currency_to_sell varchar,
                                        function_count_to_sell decimal, function_min_price decimal,
-                                       function_skip_owner_id bigint);
+                                       function_skip_owner_id bigint,
+                                       function_sell_account_id bigint,
+                                       function_order_sell_id bigint);
 
 CREATE OR REPLACE FUNCTION sell_operation(function_currency_to_buy varchar,
                                           function_currency_to_sell varchar,
@@ -12,28 +14,29 @@ CREATE OR REPLACE FUNCTION sell_operation(function_currency_to_buy varchar,
     RETURNS TABLE
             (
                 id              integer,
-                id_order_buy   integer,
+                id_order_buy    integer,
                 id_bank_account integer,
                 operation_sum   float8,
                 buy_account_id  integer,
                 date_creation   timestamp,
+                price           float8,
                 is_final_result bool,
-                is_enough bool
+                is_enough       bool
             )
     LANGUAGE plpgsql
 AS
 $$
 DECLARE
-    sum               DECIMAL := 0;
-    row_record        RECORD;
-    balance_value     DECIMAL;
-    buy_sum           float8;
-    buy_count         float8;
-    result_sum        float8;
-    final_delta_count float8;
-    id_bank_account_res   bigint;
-    id_order_buy_res      bigint;
-    is_enough_res bool;
+    sum                 DECIMAL := 0;
+    row_record          RECORD;
+    balance_value       DECIMAL;
+    buy_sum             float8;
+    buy_count           float8;
+    result_sum          float8;
+    final_delta_count   float8;
+    id_bank_account_res bigint;
+    id_order_buy_res    bigint;
+    is_enough_res       bool;
 BEGIN
     DROP TABLE IF EXISTS result_table_buy;
     DROP TABLE IF EXISTS result_table;
@@ -42,13 +45,14 @@ BEGIN
     CREATE TEMPORARY TABLE result_table_sell
     (
         id              serial,
-        id_order_buy   integer,
+        id_order_buy    integer,
         id_bank_account integer,
         operation_sum   float8,
         buy_account_id  integer,
-        date_creation timestamp,
+        price           float8,
+        date_creation   timestamp,
         is_final_result bool,
-        is_enough bool
+        is_enough       bool
     );
 
     CREATE TEMPORARY TABLE temp_table AS
@@ -132,22 +136,28 @@ BEGIN
 
                 result_sum = (buy_sum - buy_count) + final_delta_count;
 
-                INSERT INTO result_table_sell (id_order_buy, id_bank_account, operation_sum, is_final_result, is_enough, date_creation)
-                VALUES (id_order_buy_res, id_bank_account_res, result_sum, true, is_enough_res, (SELECT current_timestamp));
+                INSERT INTO result_table_sell (id_order_buy, id_bank_account, operation_sum, is_final_result, is_enough,
+                                               date_creation, price)
+                VALUES (id_order_buy_res, id_bank_account_res, result_sum, true, is_enough_res,
+                        (SELECT current_timestamp), function_min_price);
             ELSE
                 PERFORM *
                 FROM update_bank_account(row_record.count_to_buy * function_min_price, function_sell_account_id);
 
                 PERFORM * FROM update_count_order_sell(row_record.count_to_buy, function_order_sell_id);
 
-                SELECT * FROM update_bank_account(row_record.count_to_buy, row_record.to_bank_account_id)
+                SELECT *
+                FROM update_bank_account(row_record.count_to_buy, row_record.to_bank_account_id)
                 INTO id_bank_account_res;
 
-                SELECT * FROM update_count_to_0_order_buy(row_record.id)
+                SELECT *
+                FROM update_count_to_0_order_buy(row_record.id)
                 INTO id_order_buy_res;
 
-                INSERT INTO result_table_sell (id_order_buy, id_bank_account, operation_sum, is_final_result, is_enough, date_creation)
-                VALUES (id_order_buy, id_bank_account, buy_sum, false, is_enough_res, (SELECT current_timestamp));
+                INSERT INTO result_table_sell (id_order_buy, id_bank_account, operation_sum, is_final_result, is_enough,
+                                               date_creation, price)
+                VALUES (id_order_buy, id_bank_account, buy_sum, false, is_enough_res, (SELECT current_timestamp),
+                        function_min_price);
             end if;
         END LOOP;
 

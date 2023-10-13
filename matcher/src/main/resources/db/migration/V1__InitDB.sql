@@ -57,3 +57,14 @@ CREATE TABLE order_sell (
     FOREIGN KEY (to_bank_account_id) REFERENCES bank_account (id) ON DELETE CASCADE,
     FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE
 );
+
+CREATE TABLE operation_history(
+    id serial,
+    count_in_operation float8,
+    operation_status varchar(20),
+    to_bank_account_id bigint,
+    order_id bigint,
+    price float8,
+    date_creation timestamp,
+    primary key (id)
+)

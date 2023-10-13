@@ -15,6 +15,7 @@ CREATE OR REPLACE FUNCTION buy_operation(function_currency_to_buy varchar,
                 operation_sum   float8,
                 buy_account_id  integer,
                 date_creation   timestamp,
+                price           float8,
                 is_final_result bool,
                 is_enough bool
             )
@@ -46,6 +47,7 @@ BEGIN
         id_bank_account integer,
         operation_sum   float8,
         buy_account_id  integer,
+        price           float8,
         date_creation   timestamp,
         is_final_result bool,
         is_enough bool
@@ -142,8 +144,8 @@ BEGIN
                     result_sum = (sell_sum - sell_count) + final_delta_count;
 
                     INSERT INTO result_table_buy (operation_sum, buy_account_id, id_order_sell, id_bank_account,
-                                                  is_final_result, is_enough)
-                    VALUES (result_sum, buy_account_id, id_order_sell, id_bank_account, true, is_enough);
+                                                  is_final_result, is_enough, price)
+                    VALUES (result_sum, buy_account_id, id_order_sell, id_bank_account, true, is_enough, row_record.min_price);
                 ELSE
                     SELECT *
                     FROM update_bank_account(row_record.count_to_sell * row_record.min_price,
@@ -170,8 +172,8 @@ BEGIN
 --                     WHERE order_sell.id = row_record.id
 --                     RETURNING order_sell.id INTO id_order_sell;
 
-                    INSERT INTO result_table_buy (operation_sum, id_bank_account, id_order_sell, is_final_result, is_enough)
-                    VALUES (sell_sum, id_bank_account, id_order_sell, false, is_enough);
+                    INSERT INTO result_table_buy (operation_sum, id_bank_account, id_order_sell, is_final_result, is_enough, price)
+                    VALUES (sell_sum, id_bank_account, id_order_sell, false, is_enough, row_record.min_price);
                 END IF;
             END LOOP;
 
@@ -216,8 +218,8 @@ BEGIN
                     result_sum = (sell_sum - sell_count) + final_delta_count;
 
                     INSERT INTO result_table_buy (operation_sum, buy_account_id, id_order_sell, id_bank_account,
-                                                  is_final_result, is_enough)
-                    VALUES (result_sum, buy_account_id, id_order_sell, id_bank_account, true, is_enough);
+                                                  is_final_result, is_enough, price)
+                    VALUES (result_sum, buy_account_id, id_order_sell, id_bank_account, true, is_enough, row_record.min_price);
                 ELSE
                     SELECT *
                     FROM update_bank_account(row_record.count_to_sell * row_record.min_price,
@@ -243,8 +245,8 @@ BEGIN
 --                     WHERE order_sell.id = row_record.id
 --                     RETURNING order_sell.id INTO id_order_sell;
 
-                    INSERT INTO result_table_buy (operation_sum, id_bank_account, id_order_sell, is_final_result, is_enough)
-                    VALUES (sell_sum, id_bank_account, id_order_sell, false, is_enough);
+                    INSERT INTO result_table_buy (operation_sum, id_bank_account, id_order_sell, is_final_result, is_enough, price)
+                    VALUES (sell_sum, id_bank_account, id_order_sell, false, is_enough, row_record.min_price);
                 END IF;
             END LOOP;
         RETURN QUERY SELECT * FROM result_table_buy;
