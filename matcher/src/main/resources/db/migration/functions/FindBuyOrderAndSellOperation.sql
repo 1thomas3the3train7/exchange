@@ -72,37 +72,24 @@ BEGIN
             SELECT row_record.count_to_buy INTO balance_value;
 
             sum = sum + balance_value;
+
+            INSERT INTO result_table
+            VALUES (row_record.id,
+                    row_record.currency_to_buy,
+                    row_record.currency_to_sell,
+                    row_record.count_to_buy,
+                    row_record.count_to_sell,
+                    row_record.max_price,
+                    row_record.owner_id,
+                    row_record.from_bank_account_id,
+                    row_record.to_bank_account_id,
+                    row_record.date_publication,
+                    row_record.date_update,
+                    row_record.active,
+                    row_record.order_status);
+
             IF sum > function_count_to_sell OR sum = function_count_to_sell THEN
-                INSERT INTO result_table
-                VALUES (row_record.id,
-                        row_record.currency_to_buy,
-                        row_record.currency_to_sell,
-                        row_record.count_to_buy,
-                        row_record.count_to_sell,
-                        row_record.max_price,
-                        row_record.owner_id,
-                        row_record.from_bank_account_id,
-                        row_record.to_bank_account_id,
-                        row_record.date_publication,
-                        row_record.date_update,
-                        row_record.active,
-                        row_record.order_status);
                 EXIT;
-            ELSE
-                INSERT INTO result_table
-                VALUES (row_record.id,
-                        row_record.currency_to_buy,
-                        row_record.currency_to_sell,
-                        row_record.count_to_buy,
-                        row_record.count_to_sell,
-                        row_record.max_price,
-                        row_record.owner_id,
-                        row_record.from_bank_account_id,
-                        row_record.to_bank_account_id,
-                        row_record.date_publication,
-                        row_record.date_update,
-                        row_record.active,
-                        row_record.order_status);
             end if;
         END LOOP;
 
