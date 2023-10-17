@@ -26,7 +26,7 @@ public class SellServiceImpl {
     public Mono<SellResponse> createSellOperation(SellRequest sellRequest, User user) {
         return sellOperationRepository.lockBalance(sellRequest)
                 .flatMap(bankAccount -> sellOperationRepository.createOrderSell(sellRequest, user))
-                .map(id -> SellResponse.builder().id(id.toString()).seller(user).status(StatusSell.SEND_OPERATION).build());
+                .map(id -> SellResponse.builder().id(id.toString()).request(sellRequest).seller(user).status(StatusSell.SEND_OPERATION).build());
     }
 
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.SERIALIZABLE)

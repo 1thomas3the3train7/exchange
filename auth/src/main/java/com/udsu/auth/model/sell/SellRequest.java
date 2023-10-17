@@ -12,6 +12,6 @@ public class SellRequest {
     private Currency currencyToBuy;
     private String fromBankAccount;
     private String toBankAccount;
-    private Long count;
-    private Long minPrice;
+    private Float countToSell;
+    private Float minPrice;
 }

@@ -11,6 +11,7 @@ public class BuyResponse {
     private String id;
     private User buyer;
     private StatusBuy status;
+    private BuyRequest request;
 
     public static BuyResponse fromBuyRequest(BuyRequest buyRequest, StatusBuy status) {
         return BuyResponse.builder()

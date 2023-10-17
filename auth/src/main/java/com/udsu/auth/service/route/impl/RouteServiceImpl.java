@@ -21,7 +21,6 @@ public class RouteServiceImpl implements RouteService {
     public Mono<SellResponse> routeToSell(SellRequest sellRequest) {
         return kafkaService.sendToSellTopic(sellRequest);
     }
-
     @Override
     public Mono<BuyResponse> routeToBuy(BuyRequest buyRequest) {
         return kafkaService.sendToBuyTopic(buyRequest);

@@ -14,6 +14,6 @@ public class BuyRequest {
     private Currency currencyToSell;
     private String fromBankAccount;
     private String toBankAccount;
-    private Long count;
+    private Long countToBuy;
     private Long maxPrice;
 }

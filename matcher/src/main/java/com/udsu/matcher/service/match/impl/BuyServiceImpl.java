@@ -27,7 +27,7 @@ public class BuyServiceImpl {
         return buyOperationRepository
                 .lockBalance(buyRequest)
                 .flatMap(bankAccount -> buyOperationRepository.createOrderBuy(buyRequest, user))
-                .map(id -> BuyResponse.builder().id(id.toString()).status(StatusBuy.SEND_OPERATION).buyer(user).build());
+                .map(id -> BuyResponse.builder().id(id.toString()).request(buyRequest).status(StatusBuy.SEND_OPERATION).buyer(user).build());
     }
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.SERIALIZABLE)
     public Mono<BuyResponse> buyStart(PublisherModel<BuyRequest> publisherModel) {

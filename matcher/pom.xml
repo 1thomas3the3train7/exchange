@@ -16,6 +16,16 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>Spring-webflux-rsocket-client-server-discovery-mvn-repo</id>
+			<url>https://raw.github.com/1thomas3the3train7/Spring-webflux-rsocket-client-server-discovery/mvn-repo</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -24,6 +34,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<!--CUSTOM DISCOVERY-->
+		<dependency>
+			<groupId>com.discovery</groupId>
+			<artifactId>Spring-webflux-rsocket-client-server-discovery</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 		<!--R2DBC-->
 		<dependency>

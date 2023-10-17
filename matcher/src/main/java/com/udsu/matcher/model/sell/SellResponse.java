@@ -10,6 +10,7 @@ public class SellResponse {
     private String id;
     private User seller;
     private StatusSell status;
+    private SellRequest request;
 
     public static SellResponse fromSellRequest(SellRequest sellRequest, StatusSell status) {
         return SellResponse.builder()
