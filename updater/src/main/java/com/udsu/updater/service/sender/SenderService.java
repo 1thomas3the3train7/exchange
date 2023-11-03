@@ -23,7 +23,7 @@ public class SenderService {
     private final NettyDataBufferFactory nettyDataBufferFactory;
     private final Gson gson;
 
-    public Mono<Void> send(List<OperationHistory> listsHistory, Long userId) {
+    public Mono<Void> send(List<OperationHistory> listsHistory) {
         return Flux.fromIterable(listsHistory)
                 .flatMap(operationHistory ->
                         operationHistory.getOperationStatus() == OperationStatus.BUY ?

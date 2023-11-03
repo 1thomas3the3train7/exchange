@@ -48,6 +48,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!--REACTOR KAFKA-->
+		<dependency>
+			<groupId>io.projectreactor.kafka</groupId>
+			<artifactId>reactor-kafka</artifactId>
+			<version>1.3.16</version>
+		</dependency>
 		<!--REACTIVE DRIVER DB-->
 		<dependency>
 			<groupId>org.postgresql</groupId>

@@ -57,7 +57,7 @@ public class OperationHistoryRepository {
                 .bind("from", from)
                 .bind("to", to)
                 .bind("currencyToBuy", fromCurr.toString())
-                .bind("currencyToSell", fromCurr.toString())
+                .bind("currencyToSell", toCurr.toString())
                 .bind("orderType", operationStatus.toString())
                 .map(OperationHistoryMapper::map)
                 .all();

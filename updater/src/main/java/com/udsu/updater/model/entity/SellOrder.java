@@ -16,7 +16,7 @@ public class SellOrder {
     private Currency currencyToSell;
     private Long countToBuy;
     private Long countToSell;
-    private Long minPrice;
+    private Float minPrice;
     private Long ownerId;
     private Long fromBankAccount;
     private Long toBankAccount;

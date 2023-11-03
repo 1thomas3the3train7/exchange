@@ -16,7 +16,7 @@ public class BuyOrder {
     private Currency currencyToSell;
     private Long countToBuy;
     private Long countToSell;
-    private Long maxPrice;
+    private Float maxPrice;
     private Long ownerId;
     private Long fromBankAccount;
     private Long toBankAccount;

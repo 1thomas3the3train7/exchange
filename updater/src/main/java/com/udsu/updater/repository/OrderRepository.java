@@ -7,6 +7,7 @@ import com.udsu.updater.repository.mapper.SellOrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -27,4 +28,21 @@ public class OrderRepository {
                 .map(SellOrderMapper::map)
                 .one();
     }
+
+    public Flux<SellOrder> findSellOrderByUser(Long userId) {
+        final String sql = "SELECT * FROM order_sell WHERE owner_id = :userId";
+        return orderDatabase.sql(sql)
+                .bind("userId", userId)
+                .map(SellOrderMapper::map)
+                .all();
+    }
+
+    public Flux<BuyOrder> findBuyOrderByUser(Long userId) {
+        final String sql = "SELECT * FROM order_buy WHERE owner_id = :userId";
+        return orderDatabase.sql(sql)
+                .bind("userId", userId)
+                .map(BuyOrderMapper::map)
+                .all();
+    }
+    
 }
