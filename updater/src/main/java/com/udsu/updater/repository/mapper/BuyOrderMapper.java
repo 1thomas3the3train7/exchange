@@ -14,14 +14,14 @@ public class BuyOrderMapper extends BaseMapper{
         final String currencyToSell = getStringVal("currency_to_sell", row, rowMetadata);
         final Long countToBuy = getLongVal("count_to_buy", row, rowMetadata);
         final Long countToSell = getLongVal("count_to_sell", row, rowMetadata);
-        final Long maxPrice = getLongVal("max_price", row, rowMetadata);
+        final Float maxPrice = getFloatVal("max_price", row, rowMetadata);
         final Long ownerId = getLongVal("owner_id", row, rowMetadata);
         final Long fromBankAccountId = getLongVal("from_bank_account_id", row, rowMetadata);
-        final Long toBankAccountId = getLongVal("to_bank_acount_id", row, rowMetadata);
+        final Long toBankAccountId = getLongVal("to_bank_account_id", row, rowMetadata);
         final LocalDateTime datePublication = getLocalDateTimeVal("date_publication", row, rowMetadata);
         final LocalDateTime dateUpdate = getLocalDateTimeVal("date_update", row, rowMetadata);
-        final boolean active = getBoolVal("active", row, rowMetadata);
-        final boolean isEnough = getBoolVal("isenough", row, rowMetadata);
+        final Boolean active = getBoolVal("active", row, rowMetadata);
+        final Boolean isEnough = getBoolVal("isenough", row, rowMetadata);
 
         return BuyOrder.builder()
                 .id(id)

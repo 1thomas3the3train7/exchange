@@ -11,7 +11,6 @@ public class DefaultClientServiceConfig extends ClientServiceConfig {
     public void configInit() {
         this.address = "localhost";
         this.port = 8087;
-        this.rSocketPort = 7000;
     }
 
     @Override

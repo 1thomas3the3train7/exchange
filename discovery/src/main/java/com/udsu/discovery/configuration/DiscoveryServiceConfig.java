@@ -44,6 +44,7 @@ public class DiscoveryServiceConfig {
 
     @Bean
     public Gson gson() {
+
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter());
         return gsonBuilder.create();

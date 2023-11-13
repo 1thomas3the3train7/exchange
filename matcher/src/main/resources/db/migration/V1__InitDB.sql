@@ -2,6 +2,7 @@ drop table if exists users cascade ;
 drop table if exists bank_account cascade ;
 drop table if exists order_buy cascade ;
 drop table if exists order_sell cascade ;
+drop table if exists operation_history cascade ;
 
 CREATE TABLE users(
     id serial,

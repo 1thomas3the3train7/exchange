@@ -19,7 +19,7 @@ public class Order {
     private Long toBankAccount;
     private LocalDateTime datePublication;
     private LocalDateTime dateUpdate;
-    private boolean active;
-    private boolean isenough;
+    private Boolean active;
+    private Boolean isenough;
     private OperationStatus operationStatus;
 }

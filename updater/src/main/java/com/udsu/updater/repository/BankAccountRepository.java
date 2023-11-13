@@ -5,6 +5,7 @@ import com.udsu.updater.repository.mapper.BankAccountMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -31,5 +32,13 @@ public class BankAccountRepository {
                 .bind("bankAccountId", bankAccountId)
                 .map(BankAccountMapper::map)
                 .one();
+    }
+
+    public Flux<BankAccount> findBankAccountsByUser(Long userId) {
+        final String sql = "SELECT * FROM bank_account WHERE owner_id = :id";
+        return orderDatabase.sql(sql)
+                .bind("id", userId)
+                .map(BankAccountMapper::map)
+                .all();
     }
 }
